@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.hx</groupId>
-    <artifactId>mode</artifactId>
+    <artifactId>ModeStudy</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>ModeStudy</name>
     <description>Demo project for Spring Boot</description>
@@ -28,6 +28,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.6</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
