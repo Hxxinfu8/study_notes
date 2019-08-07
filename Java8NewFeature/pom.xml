@@ -50,6 +50,14 @@
             <artifactId>amqp-client</artifactId>
             <version>5.6.0</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.redisson/redisson -->
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>3.11.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>
