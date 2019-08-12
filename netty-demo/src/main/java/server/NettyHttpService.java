@@ -13,6 +13,7 @@ public class NettyHttpService {
         EventLoopGroup boss = new NioEventLoopGroup();
         EventLoopGroup workers = new NioEventLoopGroup();
         try{
+            System.out.println("— — — — — — — — netty服务器启动 — — — — — — — —");
             ServerBootstrap serverBootstrap = new ServerBootstrap();
             serverBootstrap.group(boss, workers)
                     .option(ChannelOption.SO_BACKLOG, 1024)
@@ -20,6 +21,7 @@ public class NettyHttpService {
                     .childHandler(new HttpInitializer());
             Channel channel = serverBootstrap.bind(8888).channel();
             channel.closeFuture().sync();
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
