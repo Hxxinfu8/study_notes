@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.beans.PropertyDescriptor;
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -57,6 +58,7 @@ public class Base {
             BigDecimal fenmu = new BigDecimal(3123);
             System.out.println(bigDecimal.divide(fenmu, 2, BigDecimal.ROUND_HALF_UP).doubleValue());
             System.out.println(92*1.0/1);
+            System.out.println(File.separator);
         } catch (Exception e) {
             e.printStackTrace();
         }

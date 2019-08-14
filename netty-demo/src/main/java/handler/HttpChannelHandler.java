@@ -36,7 +36,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> {
             } else {
                 byte[] bytes = new byte[byteBuf.readableBytes()];
                 byteBuf.readBytes(bytes);
-                System.out.println(byteBuf.toString());
+                System.out.println(new String(bytes));
             }
         }
 
