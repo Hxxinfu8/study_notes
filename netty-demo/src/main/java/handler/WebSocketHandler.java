@@ -15,13 +15,22 @@ import util.FileTypeUtil;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
     private WebSocketServerHandshaker handshake;
     private File file;
     private FileOutputStream outputStream;
+    private AtomicInteger connectNum;
+
+    public WebSocketHandler(AtomicInteger connectNum) {
+        this.connectNum = connectNum;
+    }
 
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) throws Exception {
+        if (o instanceof TextWebSocketFrame) {
+            System.out.println(((TextWebSocketFrame) o).text());
+        }
         if (o instanceof BinaryWebSocketFrame) {
             ByteBuf buf = ((BinaryWebSocketFrame)o).content();
             byte[] b = new byte[3];
@@ -85,6 +94,11 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
         if (!HttpUtil.isKeepAlive(request) || !response.status().equals(HttpResponseStatus.OK)) {
             future.addListener(ChannelFutureListener.CLOSE);
         }
+    }
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println(connectNum.incrementAndGet());
     }
 
     @Override
