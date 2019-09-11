@@ -7,10 +7,12 @@ import java.util.Arrays;
  */
 public class Sort {
     public static void main(String[] args) {
-        int[] arr = {3, 6, 7, 2, 4, 8, 0};
+        int[] arr = {3, 6, 7, 2, 4, 8, 0, 1};
         //bubbleSort(arr);
         System.out.println(Arrays.toString(arr));
-        quickSort(arr, 0, arr.length - 1);
+        //quickSort(arr, 0, arr.length - 1);
+        //selectSort(arr);
+        shellSort(arr);
         System.out.println(Arrays.toString(arr));
     }
 
@@ -54,11 +56,65 @@ public class Sort {
         return low;
     }
 
+    // 快速排序
     public static void quickSort(int[] arr, int low, int high) {
         if (low < high) {
             int middle = getMiddle(arr, low, high);
             quickSort(arr, low, middle - 1);
             quickSort(arr, middle + 1, high);
+        }
+    }
+
+    /**
+     * 选择排序
+     * 第一次从待排序的数据元素中选出最小（或最大）的一个元素，
+     * 存放在序列的起始位置，然后再从剩余的未排序元素中寻找到最小（大）元素，
+     * 然后放到已排序的序列的末尾。以此类推，直到全部待排序的数据元素的个数为零。
+     * 选择排序是不稳定的排序方法
+     * @param arr
+     */
+    public static void selectSort(int[] arr) {
+        int count = 0;
+        for (int i = 0; i < arr.length -1; i ++) {
+            int index = i;
+            for (int j = 1 + i; j < arr.length; j ++) {
+                if (arr[j] < arr[index]) {
+                    index = j;
+                }
+                count ++;
+            }
+            int temp = arr[index];
+            arr[index] = arr[i];
+            arr[i] = temp;
+        }
+        System.out.println(count);
+    }
+
+    // 插入排序
+    public static void insertSort(int[] arr) {
+        for (int i = 1; i < arr.length; i ++) {
+            int insertValue = arr[i];
+            int insertIndex = i - 1;
+            while (insertIndex >= 0 && insertValue < arr[insertIndex]) {
+                arr[insertIndex + 1] = arr[insertIndex];
+                insertIndex --;
+            }
+            arr[insertIndex + 1] = insertValue;
+        }
+    }
+
+    // 希尔排序
+    public static void shellSort(int[] arr) {
+        for (int gap = arr.length / 2; gap > 0; gap /= 2) {
+            for (int i = gap; i < arr.length; i ++) {
+                for (int j = i - gap; j >= 0; j -= gap) {
+                    if (arr[j] > arr[j + gap]) {
+                        int temp = arr[j + gap];
+                        arr[j + gap] = arr[j];
+                        arr[j] = temp;
+                    }
+                }
+            }
         }
     }
 }

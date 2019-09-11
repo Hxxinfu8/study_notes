@@ -1,7 +1,12 @@
 package com.company;
 
+import io.netty.util.AttributeKey;
+
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -23,5 +28,20 @@ public class StreamFeature {
         System.out.println(tasks.parallelStream().filter(item -> item.getStatus() == Status.OPEN).mapToInt(Task::getPoints).sum());
         System.out.println(tasks.stream().collect(Collectors.groupingBy(Task::getStatus)));
         System.out.println(tasks.stream().mapToInt(Task::getPoints).mapToDouble(item -> item/total).boxed().mapToLong(item -> (long)(item*100)).mapToObj(item -> item + "%").collect(Collectors.toList()));
+
+        Map<String, Task> map = new HashMap<>();
+        map.put("1", new Task(Status.CLOSED, 1));
+        map.put("2", new Task(Status.CLOSED, 1));
+        map.put("3", new Task(Status.CLOSED, 2));
+        map.put("4", new Task(Status.CLOSED, 2));
+        Map<Integer, List<Map.Entry<String, Task>>> result = map.entrySet().stream()
+                .collect(Collectors.groupingBy(item -> item.getValue().getPoints()));
+        System.out.println(result.toString());
+        System.out.println(result.entrySet().stream().map(item -> item.getValue().stream().map(cc -> cc.getKey())).toString());
+        Map<Integer, List<String>> okMap = new HashMap<>();
+        result.forEach((key, value) -> {
+            okMap.put(key, value.stream().map(item -> item.getKey()).collect(Collectors.toList()));
+        });
+        System.out.println(okMap.toString());
     }
 }
