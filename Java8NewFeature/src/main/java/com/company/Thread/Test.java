@@ -7,9 +7,8 @@ public class Test {
         Consumer consumer = new Consumer(depot);
 
         producer.product(10);
-        consumer.consume(20);
+        consumer.consume(5);
         producer.product(100);
         consumer.consume(50);
-        consumer.consume(40);
     }
 }

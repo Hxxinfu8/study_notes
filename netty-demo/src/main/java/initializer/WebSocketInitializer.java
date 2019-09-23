@@ -20,8 +20,8 @@ public class WebSocketInitializer extends ChannelInitializer {
                 .addLast("http-aggregator", new HttpObjectAggregator(10240))
                 .addLast("http-chunked", new ChunkedWriteHandler())
                 // webSocket 数据压缩扩展，当添加这个的时候WebSocketServerProtocolHandler的第三个参数需要设置成true
-                .addLast(new WebSocketServerCompressionHandler())
-                .addLast(new WebSocketServerProtocolHandler("/ws", null, true, 1024 * 1024 * 10))
+                //.addLast(new WebSocketServerCompressionHandler())
+                //.addLast(new WebSocketServerProtocolHandler("/ws", null, true, 1024 * 1024 * 10))
                 .addLast(new WebSocketHandler(atomicInteger));
     }
 }

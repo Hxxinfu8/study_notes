@@ -28,8 +28,23 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
     }
 
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) throws Exception {
+        if (o instanceof FullHttpRequest) {
+            handleHttpRequest(channelHandlerContext, (FullHttpRequest) o);
+            return;
+        }
+
+        if (o instanceof PingWebSocketFrame) {
+            channelHandlerContext.channel().writeAndFlush(new PongWebSocketFrame(((PingWebSocketFrame) o).content().retain()));
+            return;
+        }
         if (o instanceof TextWebSocketFrame) {
             System.out.println(((TextWebSocketFrame) o).text());
+            return;
+        }
+
+        if (o instanceof CloseWebSocketFrame) {
+            handshake.close(channelHandlerContext.channel(), ((CloseWebSocketFrame) o).retain());
+            return;
         }
         if (o instanceof BinaryWebSocketFrame) {
             ByteBuf buf = ((BinaryWebSocketFrame)o).content();
@@ -65,14 +80,16 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
 
     // unused
     private void handleHttpRequest(ChannelHandlerContext ctx, FullHttpRequest request) {
-        if (request.decoderResult().isFailure() || !HttpHeaderValues.WEBSOCKET.equals(request.headers().get(HttpHeaderNames.UPGRADE))) {
+        if (request.decoderResult().isFailure() || !request.headers().get(HttpHeaderNames.UPGRADE).equals(HttpHeaderValues.WEBSOCKET.toString())) {
             FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.BAD_REQUEST);
             sendHttpResponse(ctx, request, response);
             return;
         }
+        String ip = request.headers().get("X-FORWARDED-FOR");
+        System.out.println(ip);
 
-        WebSocketServerHandshakerFactory factory = new WebSocketServerHandshakerFactory("wss://" + request.headers().get(HttpHeaderNames.HOST),
-                null, false, 64 * 1024);
+        WebSocketServerHandshakerFactory factory = new WebSocketServerHandshakerFactory("ws://" + request.headers().get(HttpHeaderNames.HOST),
+                null, false, 64 * 1024 * 1024);
         handshake = factory.newHandshaker(request);
         if (handshake == null) {
             WebSocketServerHandshakerFactory.sendUnsupportedVersionResponse(ctx.channel());
@@ -99,6 +116,12 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         System.out.println(connectNum.incrementAndGet());
+    }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        super.channelInactive(ctx);
+        System.out.println(connectNum.decrementAndGet());
     }
 
     @Override

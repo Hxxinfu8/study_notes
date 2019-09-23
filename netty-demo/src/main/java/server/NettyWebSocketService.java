@@ -14,7 +14,7 @@ public class NettyWebSocketService {
         serverBootstrap.group(boss, workers)
                 .channel(NioServerSocketChannel.class)
                 .childHandler(new WebSocketInitializer());
-        Channel channel = serverBootstrap.bind(8888).channel();
+        Channel channel = serverBootstrap.bind(8090).channel();
         try {
             channel.closeFuture().sync();
         } catch (InterruptedException e) {
