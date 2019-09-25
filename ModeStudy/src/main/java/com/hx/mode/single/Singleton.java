@@ -1,7 +1,18 @@
 package com.hx.mode.single;
 
-public class Singleton {
+import java.io.Serializable;
+
+public class Singleton implements Serializable {
     private static volatile Singleton singleton;
+    private String content;
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+       this.content = content;
+    }
 
     private Singleton() {}
 
