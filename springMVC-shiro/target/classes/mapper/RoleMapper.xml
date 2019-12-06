@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hx.mapper.RoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="org.hx.entity.Role">
+        <id column="ID" property="id" />
+        <result column="ROLE_NAME" property="roleName" />
+        <result column="DESCRIPTION" property="description" />
+        <result column="DISPLAY_NAME" property="displayName" />
+        <result column="CREATED_TIME" property="createdTime" />
+        <result column="UPDATED_TIME" property="updatedTime" />
+        <result column="CREATED_BY" property="createdBy" />
+        <result column="UPDATED_BY" property="updatedBy" />
+        <result column="STATUS" property="status" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, ROLE_NAME, DESCRIPTION, DISPLAY_NAME, CREATED_TIME, UPDATED_TIME, CREATED_BY, UPDATED_BY, STATUS
+    </sql>
+
+</mapper>

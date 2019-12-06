@@ -12,6 +12,7 @@
         <module>Java8NewFeature</module>
         <module>ModeStudy</module>
         <module>netty-demo</module>
+        <module>springMVC-shiro</module>
     </modules>
 
     <dependencies>

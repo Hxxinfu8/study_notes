@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hx.mapper.PermissionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="org.hx.entity.Permission">
+        <id column="ID" property="id" />
+        <result column="PARENT_ID" property="parentId" />
+        <result column="PERMISSION_NAME" property="permissionName" />
+        <result column="PERMISSION_URL" property="permissionUrl" />
+        <result column="TYPE" property="type" />
+        <result column="ICON" property="icon" />
+        <result column="SORT_NUMBER" property="sortNumber" />
+        <result column="CREATED_TIME" property="createdTime" />
+        <result column="UPDATED_TIME" property="updatedTime" />
+        <result column="CREATED_BY" property="createdBy" />
+        <result column="UPDATED_BY" property="updatedBy" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PARENT_ID, PERMISSION_NAME, PERMISSION_URL, TYPE, ICON, SORT_NUMBER, CREATED_TIME, UPDATED_TIME, CREATED_BY, UPDATED_BY
+    </sql>
+
+</mapper>
