@@ -1,4 +1,4 @@
-package com.company.Thread;
+package com.company.thread;
 
 import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;

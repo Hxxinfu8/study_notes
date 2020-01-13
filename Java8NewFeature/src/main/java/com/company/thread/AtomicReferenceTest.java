@@ -1,4 +1,4 @@
-package com.company.Thread;
+package com.company.thread;
 
 import com.company.Status;
 import com.company.Task;

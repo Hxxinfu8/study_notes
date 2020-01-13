@@ -1,11 +1,15 @@
 package com.company;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * @author Upoint0002
+ * @param <K>
+ * @param <V>
+ */
 public class MyHashMap<K, V> implements MyMap<K, V> {
-    static final int DEFAULT_INITIAL_CAPACITY = 1 << 4;// 16
+    static final int DEFAULT_INITIAL_CAPACITY = 1 << 4;
     private int initialCapacity = 0;
     private Node<K, V>[] table = null;
 
@@ -114,6 +118,7 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
             return this.next;
         }
 
+        @Override
         public boolean equals(Object o) {
             if (o == this) {
                 return true;

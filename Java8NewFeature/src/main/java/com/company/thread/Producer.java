@@ -1,4 +1,4 @@
-package com.company.Thread;
+package com.company.thread;
 
 public class Producer {
     private Depot depot;

@@ -1,9 +1,12 @@
-package com.company.Thread;
+package com.company.thread;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * @author Upoint0002
+ */
 public class Depot {
     private int capacity;
     private int has;
@@ -24,7 +27,9 @@ public class Depot {
         try {
             int left = value;
             while (left > 0) {
-                while (has >= capacity) fullCondition.await();
+                while (has >= capacity) {
+                    fullCondition.await();
+                }
                 int inc = left + has > capacity ? capacity - has : left;
                 has += inc;
                 left -= inc;
@@ -43,7 +48,9 @@ public class Depot {
         try {
             int left = value;
             while (left > 0) {
-                while (has <= 0) emptyCondition.wait();
+                while (has <= 0) {
+                    emptyCondition.wait();
+                }
                 int dec = value > has ? has : value;
                 has -= dec;
                 left -= dec;

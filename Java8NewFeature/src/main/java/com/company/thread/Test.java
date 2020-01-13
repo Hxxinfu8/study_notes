@@ -1,4 +1,4 @@
-package com.company.Thread;
+package com.company.thread;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -33,10 +33,12 @@ public class Test {
     static class TestRunnable implements Runnable {
         private CountDownLatch countDownLatch;
         private ZookeeperLock lock;
+        private ThreadLocal threadLocal = new ThreadLocal();
 
         public TestRunnable(CountDownLatch countDownLatch, ZookeeperLock lock) {
             this.countDownLatch = countDownLatch;
             this.lock = lock;
+            threadLocal.set("1111");
         }
 
         @Override
