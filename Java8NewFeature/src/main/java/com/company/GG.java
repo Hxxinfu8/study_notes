@@ -5,6 +5,14 @@ package com.company;
  */
 public class GG {
 
+    static {
+        System.out.println("father static");
+    }
+
+    public GG () {
+        System.out.println("father builder");
+    }
+
     public static void main(String[] args) {
         System.out.println(Father.str);
         GG.class.getDeclaredMethods();

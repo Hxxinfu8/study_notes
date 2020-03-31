@@ -10,8 +10,8 @@ import com.tencentcloudapi.nlp.v20190408.models.SensitiveWordsRecognitionRespons
 
 public class Tencent {
     public static void main(String[] args) throws TencentCloudSDKException {
-        Credential cred = new Credential("AKIDykFYaLVZ2D2f3BoeyayDAq53sUu3qg6j",
-                "ZsoVwBArd8MJ4YnktlMgjWZMs76oHSpl");
+        Credential cred = new Credential("AKIDvwmNn0D2rVBersFEWghZFxRhKDtOAfRW",
+                "LSKxLWS7YEiw6jANJzcEqaAbt34vZEsa");
         ClientProfile clientProfile = new ClientProfile();
         clientProfile.setSignMethod(ClientProfile.SIGN_TC3_256);
         NlpClient client = new NlpClient(cred, "ap-guangzhou", clientProfile);
