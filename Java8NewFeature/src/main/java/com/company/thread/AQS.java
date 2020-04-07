@@ -1,4 +1,4 @@
-package com.company;
+package com.company.thread;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.AbstractQueuedSynchronizer;

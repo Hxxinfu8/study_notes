@@ -10,6 +10,7 @@ import io.netty.handler.codec.http.HttpResponseEncoder;
 import io.netty.handler.stream.ChunkedWriteHandler;
 
 public class HttpFTPInitializer extends ChannelInitializer<SocketChannel> {
+    @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
         ChannelPipeline pipeline = socketChannel.pipeline();
         pipeline.addLast("http-decoder", new HttpRequestDecoder())

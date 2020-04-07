@@ -16,6 +16,7 @@ public class HttpFileServeHandler extends SimpleChannelInboundHandler<FullHttpRe
     private static final Pattern INSECURE_URI = Pattern.compile(".*[<>&\"].*");
 
     private static final String URL = "E:";
+    @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, FullHttpRequest request){
         // 浏览器访问会同时请求一次favicon.ico
         if (request.uri().equals("/favicon.ico")) {
@@ -79,10 +80,12 @@ public class HttpFileServeHandler extends SimpleChannelInboundHandler<FullHttpRe
             // 文件下载事件监听
             channelFuture.addListener(new ChannelProgressiveFutureListener() {
 
+                @Override
                 public void operationComplete(ChannelProgressiveFuture channelProgressiveFuture) throws Exception {
                     System.err.println("Transfer complete");
                 }
 
+                @Override
                 public void operationProgressed(ChannelProgressiveFuture channelProgressiveFuture, long l, long l1) throws Exception {
                     if (l1 < 0) {
                         System.err.println("Transfer Progress" + l);

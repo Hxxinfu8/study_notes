@@ -27,6 +27,7 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
         this.connectNum = connectNum;
     }
 
+    @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) throws Exception {
         if (o instanceof FullHttpRequest) {
             handleHttpRequest(channelHandlerContext, (FullHttpRequest) o);
@@ -85,8 +86,7 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
             sendHttpResponse(ctx, request, response);
             return;
         }
-        String ip = request.headers().get("X-FORWARDED-FOR");
-        System.out.println(ip);
+        System.out.println(request.content());
 
         WebSocketServerHandshakerFactory factory = new WebSocketServerHandshakerFactory("ws://" + request.headers().get(HttpHeaderNames.HOST),
                 null, false, 64 * 1024 * 1024);
@@ -126,6 +126,6 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        cause.printStackTrace();
+        System.out.println("客户端连接断开");
     }
 }
