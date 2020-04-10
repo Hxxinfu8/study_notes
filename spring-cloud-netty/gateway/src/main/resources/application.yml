@@ -1,0 +1,26 @@
+# https://segmentfault.com/a/1190000017307713 分布式websocket解决方案
+server:
+  port: 8787
+
+spring:
+  application:
+    name: gateway
+  zipkin:
+    base-url: http://127.0.0.1:9411/
+
+eureka:
+  instance:
+    hostname: 127.0.0.1
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8777/eureka/
+
+# 运维监控配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS

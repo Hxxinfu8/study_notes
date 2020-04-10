@@ -3,3 +3,8 @@ Java8NewFeature/target/
 ModeStudy/target/
 netty-demo/target/
 Singleton.obj
+spring-cloud-netty/gateway/target/
+spring-cloud-netty/eureka/target/test-classes/org/hx/eureka/EurekaApplicationTests.class
+spring-cloud-netty/eureka/target/
+spring-cloud-netty/ws-service/target/
+springMVC-shiro/target/

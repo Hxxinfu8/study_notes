@@ -13,6 +13,7 @@
         <module>ModeStudy</module>
         <module>netty-demo</module>
         <module>springMVC-shiro</module>
+        <module>spring-cloud-netty</module>
     </modules>
 
     <dependencies>

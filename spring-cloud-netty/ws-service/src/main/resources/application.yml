@@ -1,0 +1,21 @@
+server:
+  port: 8779
+
+spring:
+  application:
+    name: websocket
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8777/eureka/
+
+netty-websocket:
+  host: 0.0.0.0
+  path: /ws
+  port: 8778
+  discovery:
+    client:
+      name: ws-service
+      host: 127.0.0.1
+      port: 8778
