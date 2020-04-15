@@ -1,5 +1,5 @@
 server:
-  port: 8779
+  port: 8788
 
 spring:
   application:
@@ -13,9 +13,9 @@ eureka:
 netty-websocket:
   host: 0.0.0.0
   path: /ws
-  port: 8778
+  port: 8776
   discovery:
     client:
       name: ws-service
       host: 127.0.0.1
-      port: 8778
+      port: 8776

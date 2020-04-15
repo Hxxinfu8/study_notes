@@ -96,7 +96,6 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
         } else {
             handshake.handshake(ctx.channel(), request);
         }
-
     }
 
     // unused

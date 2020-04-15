@@ -11,6 +11,14 @@ spring:
         locator:
           enabled: true
           lower-case-service-id: true
+      routes:
+        - id: ws-service
+          uri: lb://ws-service
+          predicates:
+          - Path=/ws-service/**
+    loadbalancer:
+      ribbon:
+        enabled: false
 
 eureka:
   instance:
