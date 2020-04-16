@@ -5,6 +5,10 @@ server:
 spring:
   application:
     name: gateway
+  activemq:
+    broker-url: tcp://127.0.0.1:61616
+    user: admin
+    password: esbot2019
   cloud:
     gateway:
       discovery:

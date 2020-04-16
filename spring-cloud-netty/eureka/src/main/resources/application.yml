@@ -5,10 +5,18 @@ server:
 spring:
   application:
     name: eureka
-
+  activemq:
+    broker-url: tcp://127.0.0.1:61616
+    user: admin
+    password: esbot2019
 eureka:
   instance:
     hostname: 127.0.0.1
+  server:
+    # 当Eureka服务器在短时间内丢失过多客户端时，自我保护模式可使服务端不再删除失去连接的客户端
+    enable-self-preservation: false
+    # Eureka服务器清理无效节点的时间间隔，单位：毫秒
+    a-s-g-cache-expiry-timeout-ms: 1000
   client:
     # 是否向注册中心注册自己
     register-with-eureka: false

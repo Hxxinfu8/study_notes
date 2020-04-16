@@ -1,5 +1,6 @@
 package org.hx.gateway.filter;
 
+import org.hx.gateway.ConsistentHashUtil;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.reactive.DefaultResponse;
@@ -29,7 +30,7 @@ import java.util.List;
 public class WebSocketBalanceFilter extends ReactiveLoadBalancerClientFilter {
     private final static String PREFIX = "lb";
     private final static String WS = "ws-service";
-    private final static String TOKEN = "token";
+    private final static String TOKEN = "token=";
 
     private final LoadBalancerClientFactory clientFactory;
     private LoadBalancerProperties properties;
@@ -58,8 +59,7 @@ public class WebSocketBalanceFilter extends ReactiveLoadBalancerClientFilter {
                         overrideScheme = url.getScheme();
                     }
 
-                    DelegatingServiceInstance serviceInstance = new DelegatingServiceInstance((ServiceInstance)response.getServer(), overrideScheme);
-                    System.out.println(response.getServer().getInstanceId());
+                    DelegatingServiceInstance serviceInstance = new DelegatingServiceInstance(response.getServer(), overrideScheme);
                     URI requestUrl = this.reconstructURI(serviceInstance, uri);
 
                     exchange.getAttributes().put(ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR, requestUrl);
@@ -77,25 +77,30 @@ public class WebSocketBalanceFilter extends ReactiveLoadBalancerClientFilter {
             throw new NotFoundException("No loadbalancer available for " + uri.getHost());
         } else {
             String token = null;
-            if (uri.getQuery() !=null && uri.getQuery().contains(TOKEN)) {
+            if (uri.getQuery() != null && uri.getQuery().contains(TOKEN)) {
                 token = uri.getQuery().split("=")[1];
             }
             if (WS.equals(uri.getAuthority().toLowerCase())) {
                 List<ServiceInstance> instances = discoveryClient.getInstances(uri.getAuthority());
+                if (instances == null) {
+                    throw new NotFoundException("No instances available for " + uri.getHost());
+                }
                 Response<ServiceInstance> response = null;
+                String chosen = ConsistentHashUtil.getServer(token);
+                System.out.println("选中：" + chosen);
                 for (ServiceInstance instance : instances) {
-                    if ("127.0.0.1:ws-service:8776".equals(instance.getInstanceId())) {
+                    if (chosen.equals(instance.getInstanceId())) {
                         response = new DefaultResponse(instance);
                         break;
                     }
                 }
                 return Mono.just(response);
             }
-            return loadBalancer.choose(this.createRequest(uri));
+            return loadBalancer.choose(this.createRequest());
         }
     }
 
-    private Request createRequest(URI uri) {
+    private Request createRequest() {
         return ReactiveLoadBalancer.REQUEST;
     }
 }

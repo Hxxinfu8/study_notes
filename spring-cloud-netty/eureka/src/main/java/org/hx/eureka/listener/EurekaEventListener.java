@@ -1,5 +1,6 @@
 package org.hx.eureka.listener;
 
+import org.hx.eureka.utils.ConsistentHashUtil;
 import org.springframework.cloud.netflix.eureka.server.event.EurekaInstanceCanceledEvent;
 import org.springframework.cloud.netflix.eureka.server.event.EurekaInstanceRegisteredEvent;
 import org.springframework.cloud.netflix.eureka.server.event.EurekaInstanceRenewedEvent;
@@ -19,8 +20,9 @@ public class EurekaEventListener {
      */
     @EventListener
     public void listen(EurekaInstanceCanceledEvent canceledEvent) {
-        String appName = canceledEvent.getAppName();
-        String serverId = canceledEvent.getServerId();
+        String serviceId = canceledEvent.getServerId();
+        System.out.println("服务下线：" + serviceId);
+        ConsistentHashUtil.removeNode(serviceId);
     }
 
     /**
@@ -29,7 +31,9 @@ public class EurekaEventListener {
      */
     @EventListener
     public void listen(EurekaInstanceRegisteredEvent registeredEvent) {
-
+        String serviceId = registeredEvent.getInstanceInfo().getInstanceId();
+        System.out.println("服务注册: " + serviceId);
+        ConsistentHashUtil.addRealNodes(serviceId);
     }
 
     /**
@@ -38,6 +42,5 @@ public class EurekaEventListener {
      */
     @EventListener
     public void listen(EurekaInstanceRenewedEvent renewedEvent) {
-
     }
 }
