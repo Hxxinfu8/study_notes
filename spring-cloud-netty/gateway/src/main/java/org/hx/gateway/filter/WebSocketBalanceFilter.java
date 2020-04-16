@@ -1,6 +1,6 @@
 package org.hx.gateway.filter;
 
-import org.hx.gateway.ConsistentHashUtil;
+import org.hx.gateway.utils.ConsistentHashUtil;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.reactive.DefaultResponse;

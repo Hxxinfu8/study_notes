@@ -1,4 +1,4 @@
-package org.hx.gateway;
+package org.hx.gateway.utils;
 
 import org.apache.commons.lang.StringUtils;
 
