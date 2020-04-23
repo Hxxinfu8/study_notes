@@ -8,3 +8,4 @@ spring-cloud-netty/eureka/target/test-classes/org/hx/eureka/EurekaApplicationTes
 spring-cloud-netty/eureka/target/
 spring-cloud-netty/ws-service/target/
 springMVC-shiro/target/
+spring-webflux-demo/target/

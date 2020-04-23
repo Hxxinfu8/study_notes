@@ -19,7 +19,7 @@ spring:
         - id: ws-service
           uri: lb://ws-service
           predicates:
-          - Path=/ws-service/**
+          - Path=/ws/**
     loadbalancer:
       ribbon:
         enabled: false

@@ -1,0 +1,13 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: webflux
+  data:
+    mongodb:
+      host: 127.0.0.1
+      port: 27017
+      database: test
+      auto-index-creation: true
+
