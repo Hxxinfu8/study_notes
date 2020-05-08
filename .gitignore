@@ -9,3 +9,5 @@ spring-cloud-netty/eureka/target/
 spring-cloud-netty/ws-service/target/
 springMVC-shiro/target/
 spring-webflux-demo/target/
+dubbo-demo/dubbo-demo.iml
+dubbo-demo/dubbo-api/dubbo-api.iml
