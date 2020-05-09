@@ -14,6 +14,7 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
         time.writeInt((int)(System.currentTimeMillis() / 1000L + 2208988800L));
         final ChannelFuture future = ctx.writeAndFlush(time);
         future.addListener(new ChannelFutureListener() {
+            @Override
             public void operationComplete(ChannelFuture channelFuture) throws Exception {
                 assert future == channelFuture;
                 ctx.close();
