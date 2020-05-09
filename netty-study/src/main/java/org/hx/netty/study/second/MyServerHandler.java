@@ -9,7 +9,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 public class MyServerHandler extends SimpleChannelInboundHandler<String> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
-        System.out.println("收到" + ctx.channel().remoteAddress() + msg);
+        System.out.println("收到 " + ctx.channel().remoteAddress() + msg);
         ctx.channel().writeAndFlush("server " + System.currentTimeMillis());
     }
 
