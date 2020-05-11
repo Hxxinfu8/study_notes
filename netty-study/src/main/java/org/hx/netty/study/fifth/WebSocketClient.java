@@ -39,7 +39,7 @@ public class WebSocketClient {
         for (;;) {
             String message = reader.readLine();
             if (!"".equals(message)) {
-                channel.writeAndFlush(new TextWebSocketFrame(reader.readLine() + "\r\n"));
+                channel.writeAndFlush(new TextWebSocketFrame(message + "\r\n"));
             }
         }
     }

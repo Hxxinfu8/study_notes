@@ -5,7 +5,6 @@ import io.netty.channel.Channel;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import org.hx.netty.study.fifth.WebSocketClient;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -22,7 +21,12 @@ public class MyChatClient {
             bootstrap.group(eventLoopGroup)
                     .channel(NioSocketChannel.class)
                     .handler(new MyChatClientInitializer());
-            WebSocketClient.connect(bootstrap);
+            Channel channel = bootstrap.connect("127.0.0.1", 8080)
+                    .channel();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            for (;;) {
+                channel.writeAndFlush(reader.readLine() + "\r\n");
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

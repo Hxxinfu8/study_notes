@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 public class WebSocketServerHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
-        System.out.println(ctx.channel().id().asLongText() + "发送消息" + msg.text());
-        ctx.channel().writeAndFlush(new TextWebSocketFrame("服务器时间： " + LocalDateTime.now()));
+        System.out.println(ctx.channel().remoteAddress() + "发送消息" + msg.text());
+        ctx.channel().writeAndFlush(new TextWebSocketFrame("[自己]： " + LocalDateTime.now() +  "：\r\n" + msg.text() + "\r\n"));
     }
 
     @Override
@@ -24,5 +24,11 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<TextWebS
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         System.out.println(ctx.channel().remoteAddress() + "下线");
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        cause.printStackTrace();
+        ctx.close();
     }
 }

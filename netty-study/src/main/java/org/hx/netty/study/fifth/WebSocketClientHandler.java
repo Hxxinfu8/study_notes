@@ -10,6 +10,6 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 public class WebSocketClientHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
-        System.out.println(msg.text() + "\r\n");
+        System.out.println(msg.text());
     }
 }
