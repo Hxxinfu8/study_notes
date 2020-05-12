@@ -1,0 +1,30 @@
+syntax = "proto2";
+
+package org.hx.protobuf;
+
+option optimize_for = SPEED;
+option java_package = "org.hx.protobuf";
+option java_outer_classname = "MyMessageInfo";
+
+message MyMessage {
+    enum DataType {
+        PersonType = 1;
+        CatType = 2;
+    }
+
+    required DataType data_type = 1;
+
+    oneof data_body{
+        Person person = 2;
+        Cat cat = 3;
+    }
+}
+
+message Person {
+    required string name = 1;
+    optional int32 age = 2;
+}
+
+message Cat {
+    required string name = 1;
+}
