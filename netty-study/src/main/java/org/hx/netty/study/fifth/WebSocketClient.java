@@ -32,7 +32,7 @@ public class WebSocketClient {
         }
     }
 
-    public static void connect(Bootstrap bootstrap) throws IOException {
+    private static void connect(Bootstrap bootstrap) throws IOException {
         Channel channel = bootstrap.connect("127.0.0.1", 8080)
                 .channel();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
