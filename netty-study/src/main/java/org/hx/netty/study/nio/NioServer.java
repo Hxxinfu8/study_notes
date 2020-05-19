@@ -10,14 +10,15 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Upoint0002
  */
 public class NioServer {
+    private static Map<String, SocketChannel> map = new HashMap<>();
     public static void main(String[] args) throws IOException {
         ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
         serverSocketChannel.configureBlocking(false);
@@ -27,7 +28,6 @@ public class NioServer {
 
         Selector selector = Selector.open();
         serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
-        Map<String, SocketChannel> map = new ConcurrentHashMap<>(1);
 
         while (true) {
             selector.select();
@@ -40,7 +40,8 @@ public class NioServer {
                         client = server.accept();
                         client.configureBlocking(false);
                         client.register(selector, SelectionKey.OP_READ);
-                        map.put(client.getLocalAddress().toString(), client);
+                        System.out.println(client.getRemoteAddress().toString() + "尝试连接");
+                        map.put(client.getRemoteAddress().toString(), client);
                     } else if (selectionKey.isReadable()) {
                         client = (SocketChannel) selectionKey.channel();
                         ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
@@ -48,12 +49,20 @@ public class NioServer {
                         if (count > 0) {
                             byteBuffer.flip();
                             String message = String.valueOf(CharsetUtil.decoder(CharsetUtil.UTF_8).decode(byteBuffer).array());
-                            System.out.println(message);
+                            String key = "";
+                            for(Map.Entry<String, SocketChannel> entry : map.entrySet()) {
+                                if (entry.getValue() == client) {
+                                    key = entry.getKey();
+                                    break;
+                                }
+                            }
+
+                            System.out.println("【" + key + "】：" + message);
 
                             for(Map.Entry<String, SocketChannel> entry : map.entrySet()) {
-                                if (!entry.getValue().equals(client)) {
+                                if (!entry.getKey().equals(key)) {
                                     ByteBuffer writeBuffer = ByteBuffer.allocate(1024);
-                                    writeBuffer.put(message.getBytes());
+                                    writeBuffer.put(("【" + key + "】：" + message).getBytes());
                                     writeBuffer.flip();
                                     entry.getValue().write(writeBuffer);
                                 }

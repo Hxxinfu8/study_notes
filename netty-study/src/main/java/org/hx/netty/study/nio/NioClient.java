@@ -46,7 +46,7 @@ public class NioClient {
                                     try {
                                         writeBuffer.clear();
                                         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-                                        writeBuffer.put((reader.readLine() + "\n").getBytes());
+                                        writeBuffer.put((reader.readLine()).getBytes());
                                         writeBuffer.flip();
                                         client.write(writeBuffer);
                                     } catch (Exception e) {
@@ -54,6 +54,7 @@ public class NioClient {
                                     }
                                 }
                             });
+                            client.register(selector, SelectionKey.OP_READ);
                         }
                     } else if (selectionKey.isReadable()) {
                         SocketChannel client = (SocketChannel) selectionKey.channel();
