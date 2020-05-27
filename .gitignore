@@ -13,3 +13,6 @@ dubbo-demo/dubbo-demo.iml
 dubbo-demo/dubbo-api/dubbo-api.iml
 netty-study/build/classes/
 netty-study/.gradle/
+netty-study/java_pid23376.hprof
+netty-websocket-distribute/netty-websocket-distribute.iml
+netty-websocket-distribute/target/
