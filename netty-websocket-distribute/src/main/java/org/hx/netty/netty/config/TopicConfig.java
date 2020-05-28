@@ -28,4 +28,9 @@ public class TopicConfig {
     public Topic dockSuccessTopic () {
         return new ActiveMQTopic(Constant.DOCKING_SUCCESS);
     }
+
+    @Bean
+    public Topic dockSuccessBackTopic () {
+        return new ActiveMQTopic(Constant.DOCK_SUCCESS_BACK);
+    }
 }

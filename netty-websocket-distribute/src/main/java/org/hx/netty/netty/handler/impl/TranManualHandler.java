@@ -33,6 +33,7 @@ public class TranManualHandler implements IEventHandler {
         vo.setType(NettyCodeEnum.CLIENT_ACTIVE_SUCCESS.getCode());
         vo.setCreateTime(new Date());
         RedisUtil.addWaiting(vo.getCustomerId());
+        RedisUtil.addWaitingCustomerInfo(vo.getCustomerId(), NettyVO.toJson(vo));
 
         TopicPublisher.transBroadCast(NettyVO.toJson(vo));
         NettyVO.sendMessage(context.channel(), vo);

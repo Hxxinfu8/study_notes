@@ -24,6 +24,8 @@ public class WebSocketEventHandlerFactory {
         MAP.put(NettyCodeEnum.SINGLE_SEND, new SingleSendHandler());
         MAP.put(NettyCodeEnum.CLIENT_ACTIVE, new TranManualHandler());
         MAP.put(NettyCodeEnum.DOCKING, new DockingHandler());
+        MAP.put(NettyCodeEnum.ONLINE_QUEUE, new ChattingQueueHandler());
+        MAP.put(NettyCodeEnum.WAITING_QUEUE, new WaitingQueueHandler());
     }
 
 

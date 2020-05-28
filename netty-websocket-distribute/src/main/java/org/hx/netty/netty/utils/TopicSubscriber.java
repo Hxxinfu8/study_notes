@@ -39,4 +39,15 @@ public class TopicSubscriber {
                 .forEach(item -> NettyVO.sendMessage(item, vo)
                 );
     }
+
+    @JmsListener(destination = Constant.DOCK_SUCCESS_BACK)
+    private void dockSuccessBackListener(String message) throws Exception {
+        NettyVO vo = NettyVO.strJson2Netty(message);
+        assert vo != null;
+        if (NettyCache.channelMap.containsKey(vo.getTo())) {
+            NettyVO.sendMessage(NettyCache.channelMap.get(vo.getTo()), vo);
+            NettyCache.one2One.put(vo.getTo(), vo.getStaffId());
+            RedisUtil.addOne2One(vo.getStaffId(), vo.getTo());
+        }
+    }
 }

@@ -3,6 +3,7 @@ package org.hx.netty.netty.handler.impl;
 import io.netty.channel.ChannelHandlerContext;
 import org.apache.commons.lang3.StringUtils;
 import org.hx.netty.netty.constants.Constant;
+import org.hx.netty.netty.constants.NettyCache;
 import org.hx.netty.netty.constants.NettyCodeEnum;
 import org.hx.netty.netty.constants.NettyVO;
 import org.hx.netty.netty.handler.IEventHandler;
@@ -28,8 +29,17 @@ public class DockingHandler implements IEventHandler {
         }
 
         if (RedisUtil.containsWaiting(to)) {
+            String staffId = context.channel().attr(Constant.NettyKey.ID).get();
             // 告诉客户我接受你了
-            TopicPublisher.singleSend(NettyVO.toJson(vo));
+            if (NettyCache.channelMap.containsKey(to)) {
+                NettyVO.sendMessage(NettyCache.channelMap.get(to), vo);
+                RedisUtil.addOne2One(staffId, to);
+                NettyCache.one2One.put(to, staffId);
+            } else {
+                vo.setStaffId(staffId);
+                TopicPublisher.dockingSuccessBack(NettyVO.toJson(vo));
+            }
+
 
             // 提示自己接受客户成功了
             vo.setType(NettyCodeEnum.DOCK_SUCCESS.getCode());
@@ -41,6 +51,9 @@ public class DockingHandler implements IEventHandler {
             vo.setMessage(NettyCodeEnum.CLIENT_HAS_DOCK.getType());
             vo.setStaffId(context.channel().attr(Constant.NettyKey.ID).get());
             TopicPublisher.dockingSuccess(NettyVO.toJson(vo));
+
+            RedisUtil.removeWaiting(to);
+            RedisUtil.removeWaitingCustomerInfo(to);
 
         } else {
             vo.setType(NettyCodeEnum.CLIENT_HAS_DOCK.getCode());

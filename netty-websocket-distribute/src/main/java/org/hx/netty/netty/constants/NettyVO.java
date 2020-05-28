@@ -40,7 +40,7 @@ public class NettyVO {
      * @return
      * @throws Exception
      */
-    public static NettyVO strJson2Netty(String message) throws Exception {
+    public static NettyVO strJson2Netty(String message) {
         return StringUtil.isNullOrEmpty(message) ? null : JSONObject.parseObject(message, NettyVO.class);
     }
 

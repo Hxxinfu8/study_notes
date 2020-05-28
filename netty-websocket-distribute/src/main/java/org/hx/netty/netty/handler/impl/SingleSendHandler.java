@@ -10,9 +10,6 @@ import org.hx.netty.netty.handler.IEventHandler;
 import org.hx.netty.netty.utils.RedisUtil;
 import org.hx.netty.netty.utils.TopicPublisher;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
 /**
  * @author Upoint0002
  */
@@ -37,13 +34,6 @@ public class SingleSendHandler implements IEventHandler {
             }
         } else {
             if (isClient) {
-                if (NettyCache.messageQueue.containsKey(vo.getTo())) {
-                    NettyCache.messageQueue.get(vo.getTo()).offer(vo);
-                } else {
-                    Queue<NettyVO> queue = new LinkedList<>();
-                    queue.offer(vo);
-                    NettyCache.messageQueue.put(vo.getTo(), queue);
-                }
                 return;
             }
             sendOffline(context, vo);

@@ -21,6 +21,8 @@ public interface Constant {
 
     String DOCKING_SUCCESS = "DOCKING_SUCCESS";
 
+    String DOCK_SUCCESS_BACK = "DOCK_SUCCESS_BACK";
+
 
     interface WebSocketFrameText {
         String PING = "ping";

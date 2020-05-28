@@ -18,8 +18,8 @@ import org.hx.netty.netty.constants.NettyVO;
 import org.hx.netty.netty.utils.RedisUtil;
 import org.hx.netty.netty.utils.TopicPublisher;
 
-import java.net.SocketAddress;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Upoint0002
@@ -28,9 +28,14 @@ import java.util.Objects;
 public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
     private WebSocketServerHandshaker handshake;
 
-    private String clientIp;
-
     private static WebSocketEventHandlerFactory factory = new WebSocketEventHandlerFactory();
+
+    private AtomicInteger connectNum;
+
+
+    public WebSocketHandler (AtomicInteger connectNum) {
+        this.connectNum = connectNum;
+    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) throws Exception {
@@ -54,10 +59,22 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
         }
     }
 
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        log.info("连接总数:" + connectNum.incrementAndGet());
+    }
+
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        log.info("连接总数:" + connectNum.decrementAndGet());
         offline(ctx);
         ctx.close();
+    }
+
+    @Override
+    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+        ctx.flush();
     }
 
     @Override
@@ -101,13 +118,6 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
             sendHttpResponse(ctx, request, response);
             return;
         }
-        clientIp = getIpAddressInWS(request.headers());
-        if (clientIp == null) {
-            SocketAddress address = ctx.channel().remoteAddress();
-            if (address != null) {
-                clientIp = address.toString().split(":")[0].replace("/", "");
-            }
-        }
 
         WebSocketServerHandshakerFactory factory = new WebSocketServerHandshakerFactory("ws://" + request.headers().get(HttpHeaderNames.HOST),
                 null, true, 64 * 1024 * 1024);
@@ -133,32 +143,8 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
         }
     }
 
-    private String getIpAddressInWS(HttpHeaders headers) {
-        String ip = headers.get("X-Forwarded-For");
-        if (ip != null && ip.length() != 0 && !"unknown".equalsIgnoreCase(ip)) {
-            // 多次反向代理后会有多个ip值，第一个ip才是真实ip
-            ip = ip.split(",")[0];
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = headers.get("Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = headers.get("WL-Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = headers.get("HTTP_CLIENT_IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = headers.get("HTTP_X_FORWARDED_FOR");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = headers.get("X-Real-IP");
-        }
-        return ip;
-    }
-
     private void offline(ChannelHandlerContext context) {
-        String id = String.valueOf(context.channel().attr(Constant.NettyKey.ID).get());
+        String id = context.channel().attr(Constant.NettyKey.ID).get();
         if (StringUtils.isBlank(id)) {
             return;
         }
@@ -170,6 +156,7 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
             RedisUtil.removeStaff(id);
         } else {
             RedisUtil.removeWaiting(id);
+            RedisUtil.removeWaitingCustomerInfo(id);
             RedisUtil.removeCustomer(id);
 
             NettyVO nettyVO = new NettyVO();
@@ -177,8 +164,23 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
             nettyVO.setFrom(id);
             nettyVO.setType(NettyCodeEnum.WAITING_QUEUE_OFFLINE.getCode());
             nettyVO.setMessage(NettyCodeEnum.WAITING_QUEUE_OFFLINE.getType());
-
             TopicPublisher.transBroadCast(NettyVO.toJson(nettyVO));
+
+            if (NettyCache.one2One.containsKey(id)) {
+                nettyVO.setType(NettyCodeEnum.OFFLINE.getCode());
+                nettyVO.setMessage(NettyCodeEnum.OFFLINE.getType());
+                String staffId = NettyCache.one2One.get(id);
+                if (NettyCache.channelMap.containsKey(staffId)) {
+                    NettyVO.sendMessage(NettyCache.channelMap.get(staffId), nettyVO);
+                } else {
+                    nettyVO.setTo(staffId);
+                    TopicPublisher.singleSend(NettyVO.toJson(nettyVO));
+                }
+
+                NettyCache.one2One.remove(id);
+                RedisUtil.removeOne2One(staffId, id);
+            }
+
         }
 
     }
