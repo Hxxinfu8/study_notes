@@ -8,6 +8,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.hx.netty.netty.initializer.WebSocketInitializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,6 +24,9 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class NettyWebsocketDistributeApplication implements CommandLineRunner {
 
+    @Value("${netty.ws.port}")
+    private Integer port;
+
     public static void main(String[] args) {
         SpringApplication.run(NettyWebsocketDistributeApplication.class, args);
     }
@@ -31,7 +35,6 @@ public class NettyWebsocketDistributeApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         new ThreadPoolExecutor(1, 1, 0, TimeUnit.SECONDS, new LinkedBlockingQueue<>())
                 .execute(() -> {
-                    log.info("------------------------netty starting------------------------");
                     EventLoopGroup boss = new NioEventLoopGroup();
                     EventLoopGroup worker = new NioEventLoopGroup();
 
@@ -42,7 +45,9 @@ public class NettyWebsocketDistributeApplication implements CommandLineRunner {
                                 .childHandler(new LoggingHandler())
                                 .childHandler(new WebSocketInitializer());
 
-                        Channel channel = serverBootstrap.bind(8091).channel();
+                        log.info("ws port: " + port);
+                        log.info("------------------------netty start successfully ------------------------");
+                        Channel channel = serverBootstrap.bind(port).channel();
                         channel.closeFuture().sync();
                     } catch (Exception e) {
                         e.printStackTrace();

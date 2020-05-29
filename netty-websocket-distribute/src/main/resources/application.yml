@@ -12,4 +12,8 @@ spring:
     pub-sub-domain: true
 
 server:
-  port: 5858
+  port: 5857
+
+netty:
+  ws:
+    port: 8091

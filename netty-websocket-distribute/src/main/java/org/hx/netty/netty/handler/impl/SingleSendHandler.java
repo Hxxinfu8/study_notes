@@ -34,6 +34,7 @@ public class SingleSendHandler implements IEventHandler {
             }
         } else {
             if (isClient) {
+                RedisUtil.addOfflineMessageQueue(vo.getTo(), NettyVO.toJson(vo));
                 return;
             }
             sendOffline(context, vo);

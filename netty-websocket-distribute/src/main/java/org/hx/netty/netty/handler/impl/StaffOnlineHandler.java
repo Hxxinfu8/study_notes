@@ -9,8 +9,10 @@ import org.hx.netty.netty.constants.NettyCodeEnum;
 import org.hx.netty.netty.constants.NettyVO;
 import org.hx.netty.netty.handler.IEventHandler;
 import org.hx.netty.netty.utils.RedisUtil;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author Upoint0002
@@ -38,5 +40,14 @@ public class StaffOnlineHandler implements IEventHandler {
         vo.setMessage(NettyCodeEnum.STAFF_ONLINE.getType());
 
         NettyVO.sendMessage(context.channel(), vo);
+
+        List<String> messages = RedisUtil.getMessageQueue(staffId);
+
+        if (!CollectionUtils.isEmpty(messages)) {
+            for (String message : messages) {
+                NettyVO.sendMessage(context.channel(), message);
+            }
+            RedisUtil.removeOfflineMessageQueue(staffId);
+        }
     }
 }
