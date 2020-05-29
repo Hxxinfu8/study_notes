@@ -14,7 +14,7 @@ public enum NettyCodeEnum {
     STAFF_WATCH(1004, "0"),
     STAFF_NO_WATCH(1005, "客服断开监听"),
     CLIENT_ACTIVE(1006, "访客请求建立连接"),
-    CLIENT_OFF(1007, "访客请求断开连接"),
+    CLIENT_OFFLINE(1007, "访客请求断开连接"),
     DOCKING(1008, "客服对接"),
     DOCK_FAIL(1009, "暂无客服"),
     OFFLINE(1010, "已下线"),

@@ -155,17 +155,13 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
         if (NettyCodeEnum.STAFF_ONLINE.getCode().equals(context.channel().attr(Constant.NettyKey.TYPE).get())) {
             RedisUtil.removeStaff(id);
         } else {
-            RedisUtil.removeWaiting(id);
-            RedisUtil.removeWaitingCustomerInfo(id);
             RedisUtil.removeCustomer(id);
 
             NettyVO nettyVO = new NettyVO();
             nettyVO.setCustomerId(id);
             nettyVO.setFrom(id);
-            nettyVO.setType(NettyCodeEnum.WAITING_QUEUE_OFFLINE.getCode());
-            nettyVO.setMessage(NettyCodeEnum.WAITING_QUEUE_OFFLINE.getType());
-            TopicPublisher.transBroadCast(NettyVO.toJson(nettyVO));
 
+            // 客户已对接客服
             if (NettyCache.one2One.containsKey(id)) {
                 nettyVO.setType(NettyCodeEnum.OFFLINE.getCode());
                 nettyVO.setMessage(NettyCodeEnum.OFFLINE.getType());
@@ -179,6 +175,15 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
 
                 NettyCache.one2One.remove(id);
                 RedisUtil.removeOne2One(staffId, id);
+            }
+
+            // 客户等待中
+            if (RedisUtil.containsWaiting(id)) {
+                RedisUtil.removeWaiting(id);
+                RedisUtil.removeWaitingCustomerInfo(id);
+                nettyVO.setType(NettyCodeEnum.WAITING_QUEUE_OFFLINE.getCode());
+                nettyVO.setMessage(NettyCodeEnum.WAITING_QUEUE_OFFLINE.getType());
+                TopicPublisher.transBroadCast(NettyVO.toJson(nettyVO));
             }
 
         }
