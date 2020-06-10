@@ -5,9 +5,9 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.AttributeKey;
-import io.netty.util.internal.StringUtil;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -41,7 +41,7 @@ public class NettyVO {
      * @throws Exception
      */
     public static NettyVO strJson2Netty(String message) {
-        return StringUtil.isNullOrEmpty(message) ? null : JSONObject.parseObject(message, NettyVO.class);
+        return StringUtils.isBlank(message) ? null : JSONObject.parseObject(message, NettyVO.class);
     }
 
     /**
