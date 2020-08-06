@@ -16,3 +16,6 @@ netty-study/.gradle/
 netty-study/java_pid23376.hprof
 netty-websocket-distribute/netty-websocket-distribute.iml
 netty-websocket-distribute/target/
+*.iml
+dubbo-demo/dubbo-consumer/target/
+dubbo-demo/dubbo-provider/target/
