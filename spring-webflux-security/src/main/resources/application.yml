@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: pm
+  r2dbc:
+    url: r2dbcs:mysql://116.63.178.111:3306/pm_607?sslMode=DISABLED
+    username: root
+    password: EspayWuhan@
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+
+# 缓存前缀
+cache:
+  prefix: pm607_
+
+# jwt配置
+jwt:
+  token:
+    header: Authorization
+    secret: 123ialsd8231
+    # 过期时间 分钟
+    expireTime: 30
