@@ -21,10 +21,9 @@ public class SingletonTest {
 
         Thread threadA = new Thread(runnable, "A");
         Thread threadB = new Thread(runnable, "B");
-        latch.countDown();
         threadA.start();
         threadB.start();
-
+        latch.countDown();
 
 
         Singleton a = Singleton.getInstance();
@@ -61,7 +60,6 @@ public class SingletonTest {
         EnumSingleton enumSingletonB = EnumSingleton.ENUM_SINGLETON;
         System.out.println(enumSingletonA);
         System.out.println(enumSingletonB);
-        System.out.println(enumSingletonA == enumSingletonB);
         Constructor<EnumSingleton> enumSingletonConstructor = EnumSingleton.class.getDeclaredConstructor();
         enumSingletonConstructor.setAccessible(true);
         EnumSingleton enumSingletonC = enumSingletonConstructor.newInstance();
