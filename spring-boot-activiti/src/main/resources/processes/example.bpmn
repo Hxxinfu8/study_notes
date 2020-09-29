@@ -8,16 +8,16 @@
              xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              expressionLanguage="http://www.w3.org/1999/XPath"
-             id="m1601179201715"
+             id="m1601285837293"
              name=""
              targetNamespace="http://www.activiti.org/test"
              typeLanguage="http://www.w3.org/2001/XMLSchema">
-   <process xmlns="" id="exampleProcess" isClosed="true" isExecutable="true" name="审核流程"
+   <process id="exampleProcess" isClosed="false" isExecutable="true" name="审核流程"
             processType="None">
-      <startEvent id="_2" name="StartEvent"/>
+      <startEvent id="_2" name="审核开始"/>
       <userTask activiti:exclusive="true" id="_3" name="财务"/>
       <userTask activiti:exclusive="true" id="_4" name="主管"/>
-      <endEvent id="_5" name="EndEvent"/>
+      <endEvent id="_5" name="审核结束"/>
       <sequenceFlow id="_6" sourceRef="_2" targetRef="_3"/>
       <sequenceFlow id="_7" sourceRef="_3" targetRef="_4"/>
       <sequenceFlow id="_8" sourceRef="_4" targetRef="_5"/>
@@ -28,46 +28,46 @@
                        name="New Diagram">
       <bpmndi:BPMNPlane bpmnElement="exampleProcess">
          <bpmndi:BPMNShape bpmnElement="_2" id="Shape-_2">
-            <omgdc:Bounds height="32.0" width="32.0" x="235.0" y="40.0"/>
+            <omgdc:Bounds height="32.0" width="32.0" x="230.0" y="25.0"/>
             <bpmndi:BPMNLabel>
                <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
             </bpmndi:BPMNLabel>
          </bpmndi:BPMNShape>
          <bpmndi:BPMNShape bpmnElement="_3" id="Shape-_3">
-            <omgdc:Bounds height="55.0" width="85.0" x="215.0" y="165.0"/>
+            <omgdc:Bounds height="55.0" width="85.0" x="195.0" y="165.0"/>
             <bpmndi:BPMNLabel>
                <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
             </bpmndi:BPMNLabel>
          </bpmndi:BPMNShape>
          <bpmndi:BPMNShape bpmnElement="_4" id="Shape-_4">
-            <omgdc:Bounds height="55.0" width="85.0" x="210.0" y="295.0"/>
+            <omgdc:Bounds height="55.0" width="85.0" x="200.0" y="285.0"/>
             <bpmndi:BPMNLabel>
                <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
             </bpmndi:BPMNLabel>
          </bpmndi:BPMNShape>
          <bpmndi:BPMNShape bpmnElement="_5" id="Shape-_5">
-            <omgdc:Bounds height="32.0" width="32.0" x="255.0" y="455.0"/>
+            <omgdc:Bounds height="32.0" width="32.0" x="220.0" y="420.0"/>
             <bpmndi:BPMNLabel>
                <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
             </bpmndi:BPMNLabel>
          </bpmndi:BPMNShape>
          <bpmndi:BPMNEdge bpmnElement="_6" id="BPMNEdge__6" sourceElement="_2" targetElement="_3">
-            <omgdi:waypoint x="251.0" y="72.0"/>
-            <omgdi:waypoint x="251.0" y="165.0"/>
+            <omgdi:waypoint x="246.0" y="57.0"/>
+            <omgdi:waypoint x="246.0" y="165.0"/>
             <bpmndi:BPMNLabel>
                <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
             </bpmndi:BPMNLabel>
          </bpmndi:BPMNEdge>
          <bpmndi:BPMNEdge bpmnElement="_7" id="BPMNEdge__7" sourceElement="_3" targetElement="_4">
-            <omgdi:waypoint x="255.0" y="220.0"/>
-            <omgdi:waypoint x="255.0" y="295.0"/>
+            <omgdi:waypoint x="240.0" y="220.0"/>
+            <omgdi:waypoint x="240.0" y="285.0"/>
             <bpmndi:BPMNLabel>
                <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
             </bpmndi:BPMNLabel>
          </bpmndi:BPMNEdge>
          <bpmndi:BPMNEdge bpmnElement="_8" id="BPMNEdge__8" sourceElement="_4" targetElement="_5">
-            <omgdi:waypoint x="271.0" y="350.0"/>
-            <omgdi:waypoint x="271.0" y="455.0"/>
+            <omgdi:waypoint x="236.0" y="340.0"/>
+            <omgdi:waypoint x="236.0" y="420.0"/>
             <bpmndi:BPMNLabel>
                <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
             </bpmndi:BPMNLabel>
