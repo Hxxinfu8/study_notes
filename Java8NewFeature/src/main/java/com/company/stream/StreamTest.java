@@ -3,6 +3,7 @@ package com.company.stream;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class StreamTest {
@@ -17,5 +18,7 @@ public class StreamTest {
 
         List<SortVO> result = list.stream().sorted(Comparator.comparing(SortVO::getStatus).reversed()).collect(Collectors.toList());
         System.out.println(result);
+        Pattern pattern = Pattern.compile("([-]?)|(^-?\\d+(\\.\\d+)?)");
+        System.out.println(pattern.matcher("  ").matches());
     }
 }

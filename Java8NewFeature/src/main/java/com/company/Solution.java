@@ -89,8 +89,40 @@ public class Solution {
         return x + y;
     }
 
+    public static String reverseWords(String s) {
+        if (s == null) {
+            return "";
+        }
+        String a = s.trim();
+        String[] strArr = a.split(" ");
+        String result = "";
+        for (int i = strArr.length - 1; i >=0 ;i --) {
+            if (!"".equals(strArr[i])) {
+                result = result + strArr[i].trim() + " ";
+            }
+        }
+        return result.trim();
+    }
+
+    public char firstUniqChar(String s) {
+        Map<Character, Integer> map = new HashMap<>();
+        char[] cArr = s.toCharArray();
+        for (char c : cArr) {
+            map.put(c, map.getOrDefault(c, 0) + 1);
+        }
+
+        for (char c : cArr) {
+            if (map.get(c) == 1) {
+                return c;
+            }
+        }
+
+        return " ".charAt(0);
+    }
+
     public static void main(String[] args) {
         System.out.println(commonChars(new String[]{"bella", "label", "roller"}));
         System.out.println(partitionLabels("abacsddfejjjh"));
+        System.out.println(reverseWords("a good   example"));
     }
 }
