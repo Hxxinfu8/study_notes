@@ -21,7 +21,7 @@ public class MyServer {
                     .channel(NioServerSocketChannel.class)
                     .childHandler(new LoggingHandler(LogLevel.INFO))
                     .childHandler(new MyServerInitializer());
-            Channel channel = serverBootstrap.bind(8080).channel();
+            Channel channel = serverBootstrap.bind(8080).sync().channel();
             channel.closeFuture().sync();
 
         } catch (Exception e) {

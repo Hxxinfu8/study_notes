@@ -50,6 +50,7 @@ public class Solution {
 
     /**
      * 搜索字符
+     *
      * @param S
      * @return
      */
@@ -73,12 +74,13 @@ public class Solution {
 
     /**
      * 计算器
+     *
      * @param s
      * @return
      */
     public int calculate(String s) {
         int x = 1, y = 0;
-        for (int i = 0; i < s.length(); i ++) {
+        for (int i = 0; i < s.length(); i++) {
             if (String.valueOf(s.charAt(i)).equals("A")) {
                 x = 2 * x + y;
             }
@@ -96,7 +98,7 @@ public class Solution {
         String a = s.trim();
         String[] strArr = a.split(" ");
         String result = "";
-        for (int i = strArr.length - 1; i >=0 ;i --) {
+        for (int i = strArr.length - 1; i >= 0; i--) {
             if (!"".equals(strArr[i])) {
                 result = result + strArr[i].trim() + " ";
             }
@@ -120,9 +122,46 @@ public class Solution {
         return " ".charAt(0);
     }
 
+    /**
+     * 独一无二的出现次数
+     *
+     * @param arr
+     * @return
+     */
+    public static boolean uniqueOccurrences(int[] arr) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int a : arr) {
+            map.put(a, map.getOrDefault(a, 0) + 1);
+        }
+        Set<Integer> set = new HashSet<>(map.values());
+        return map.values().size() == set.size();
+    }
+
+    public int[] intersection(int[] nums1, int[] nums2) {
+        Set<Integer> set1 = new HashSet<>();
+        Set<Integer> set2 = new HashSet<>();
+        for (int num1 : nums1) {
+            set1.add(num1);
+        }
+        for (int num2 : nums2) {
+            set2.add(num2);
+        }
+
+        Set<Integer> result = new HashSet<>();
+        for (Integer a : set1) {
+            if (set2.contains(a)) {
+                result.add(a);
+            }
+        }
+        return result.stream().mapToInt(Integer::intValue).toArray();
+    }
+
     public static void main(String[] args) {
         System.out.println(commonChars(new String[]{"bella", "label", "roller"}));
         System.out.println(partitionLabels("abacsddfejjjh"));
         System.out.println(reverseWords("a good   example"));
+        int[] arr = new int[]{26, 2, 16, 16, 5, 5, 26, 2, 5, 20, 20, 5, 2, 20, 2, 2, 20, 2, 16, 20, 16, 17, 16, 2, 16, 20, 26, 16};
+        System.out.println(uniqueOccurrences(arr));
+        new HashMap<>();
     }
 }
