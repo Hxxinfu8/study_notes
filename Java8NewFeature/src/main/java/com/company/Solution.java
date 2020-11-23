@@ -1,6 +1,7 @@
 package com.company;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Leetcode
@@ -156,12 +157,58 @@ public class Solution {
         return result.stream().mapToInt(Integer::intValue).toArray();
     }
 
+    /**
+     * 距离顺序排列矩阵单元格
+     *
+     * @param R
+     * @param C
+     * @param r0
+     * @param c0
+     * @return
+     */
+    public static int[][] allCellsDistOrder(int R, int C, int r0, int c0) {
+        int[][] result = new int[R * C][2];
+        for (int i = 0; i < R; i ++) {
+            for (int j = 0; j < C; j ++) {
+                int t =  i * C + j;
+                result[t][0] = i;
+                result[t][1] = j;
+            }
+        }
+
+        Arrays.sort(result, Comparator.comparingInt(a -> dist(a, r0, c0)));
+        return result;
+    }
+
+    private static int dist(int[] arr, int r2,int c2) {
+        return Math.abs(arr[0] - r2) + Math.abs(arr[1] - c2);
+    }
+
+    public static int lengthOfLongestSubstring(String s) {
+        int result = 0, rk = -1;
+        Set<Character> set = new HashSet<>();
+        for (int i = 0; i < s.length(); i ++) {
+            if (i > 0) {
+                set.remove(s.charAt(i - 1));
+            }
+
+            while (rk + 1 < s.length() && !set.contains(s.charAt(rk + 1))) {
+                set.add(s.charAt(rk + 1));
+                rk ++;
+            }
+
+            result = Math.max(result, rk - i + 1);
+        }
+        return result;
+    }
+
     public static void main(String[] args) {
         System.out.println(commonChars(new String[]{"bella", "label", "roller"}));
         System.out.println(partitionLabels("abacsddfejjjh"));
         System.out.println(reverseWords("a good   example"));
         int[] arr = new int[]{26, 2, 16, 16, 5, 5, 26, 2, 5, 20, 20, 5, 2, 20, 2, 2, 20, 2, 16, 20, 16, 17, 16, 2, 16, 20, 26, 16};
         System.out.println(uniqueOccurrences(arr));
-        new HashMap<>();
+        System.out.println(Arrays.deepToString(allCellsDistOrder(2, 2, 0, 0)));
+        System.out.println(lengthOfLongestSubstring("asbbbbcade"));
     }
 }

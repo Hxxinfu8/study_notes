@@ -9,6 +9,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
 
 public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> {
+    @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
         FullHttpResponse response = new DefaultFullHttpResponse(
                 HttpVersion.HTTP_1_1,
