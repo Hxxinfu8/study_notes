@@ -1,7 +1,6 @@
 package com.company;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Leetcode
@@ -168,9 +167,9 @@ public class Solution {
      */
     public static int[][] allCellsDistOrder(int R, int C, int r0, int c0) {
         int[][] result = new int[R * C][2];
-        for (int i = 0; i < R; i ++) {
-            for (int j = 0; j < C; j ++) {
-                int t =  i * C + j;
+        for (int i = 0; i < R; i++) {
+            for (int j = 0; j < C; j++) {
+                int t = i * C + j;
                 result[t][0] = i;
                 result[t][1] = j;
             }
@@ -180,26 +179,65 @@ public class Solution {
         return result;
     }
 
-    private static int dist(int[] arr, int r2,int c2) {
+    private static int dist(int[] arr, int r2, int c2) {
         return Math.abs(arr[0] - r2) + Math.abs(arr[1] - c2);
     }
 
     public static int lengthOfLongestSubstring(String s) {
         int result = 0, rk = -1;
         Set<Character> set = new HashSet<>();
-        for (int i = 0; i < s.length(); i ++) {
+        for (int i = 0; i < s.length(); i++) {
             if (i > 0) {
                 set.remove(s.charAt(i - 1));
             }
 
             while (rk + 1 < s.length() && !set.contains(s.charAt(rk + 1))) {
                 set.add(s.charAt(rk + 1));
-                rk ++;
+                rk++;
             }
 
             result = Math.max(result, rk - i + 1);
         }
         return result;
+    }
+
+    /**
+     * 给你一个字符串 s ，请你根据下面的算法重新构造字符串：
+     *
+     * 从 s 中选出 最小 的字符，将它 接在 结果字符串的后面。
+     * 从 s 剩余字符中选出 最小 的字符，且该字符比上一个添加的字符大，将它 接在 结果字符串后面。
+     * 重复步骤 2 ，直到你没法从 s 中选择字符。
+     * 从 s 中选出 最大 的字符，将它 接在 结果字符串的后面。
+     * 从 s 剩余字符中选出 最大 的字符，且该字符比上一个添加的字符小，将它 接在 结果字符串后面。
+     * 重复步骤 5 ，直到你没法从 s 中选择字符。
+     * 重复步骤 1 到 6 ，直到 s 中所有字符都已经被选过。
+     * @param s
+     * @return
+     */
+    public static String sortString(String s) {
+        StringBuilder result = new StringBuilder();
+        int[] arr = new int[26];
+        for (char c : s.toCharArray()) {
+            arr[c - 'a']++;
+        }
+
+        while (result.length() < s.length()) {
+            for (int i = 0; i < 26; i++) {
+                if (arr[i] > 0) {
+                    result.append((char) (i + 'a'));
+                    arr[i]--;
+                }
+            }
+
+            for (int i = 25; i >= 0; i--) {
+                if (arr[i] > 0) {
+                    result.append((char) (i + 'a'));
+                    arr[i]--;
+                }
+            }
+        }
+
+        return result.toString();
     }
 
     public static void main(String[] args) {
@@ -210,5 +248,6 @@ public class Solution {
         System.out.println(uniqueOccurrences(arr));
         System.out.println(Arrays.deepToString(allCellsDistOrder(2, 2, 0, 0)));
         System.out.println(lengthOfLongestSubstring("asbbbbcade"));
+        System.out.println(sortString("aaaabbbbcccc"));
     }
 }
