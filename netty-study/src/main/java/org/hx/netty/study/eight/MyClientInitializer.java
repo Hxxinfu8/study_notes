@@ -12,7 +12,7 @@ public class MyClientInitializer extends ChannelInitializer<SocketChannel> {
     protected void initChannel(SocketChannel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
         pipeline.addLast(new MyLongToByteEncoder())
-                .addLast(new MyByteToLongDecoder())
+                .addLast(new MyByteToLongDecoder2())
                 .addLast(new MyClientHandler());
     }
 }

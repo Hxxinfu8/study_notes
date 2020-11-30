@@ -1,6 +1,9 @@
 package com.company;
 
+import org.springframework.util.Base64Utils;
+
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Leetcode
@@ -238,6 +241,27 @@ public class Solution {
         }
 
         return result.toString();
+    }
+
+    /**
+     * 给定一个无序的数组，找出数组在排序之后，相邻元素之间最大的差值。
+     *
+     * 如果数组元素个数小于 2，则返回 0。
+     * @param nums
+     * @return
+     */
+    public static int maximumGap(int[] nums) {
+        if (nums.length < 2) {
+            return 0;
+        }
+
+        List<Integer> list = Arrays.stream(nums).boxed().sorted(Integer::compareTo).collect(Collectors.toList());
+        int[] dis = new int[nums.length - 1];
+        for (int i = 0 ; i < list.size() - 1; i ++) {
+            dis[i] = list.get(i + 1) - list.get(i);
+        }
+
+        return Arrays.stream(dis).max().getAsInt();
     }
 
     public static void main(String[] args) {
