@@ -1,7 +1,5 @@
 package com.company;
 
-import org.springframework.util.Base64Utils;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -206,7 +204,7 @@ public class Solution {
 
     /**
      * 给你一个字符串 s ，请你根据下面的算法重新构造字符串：
-     *
+     * <p>
      * 从 s 中选出 最小 的字符，将它 接在 结果字符串的后面。
      * 从 s 剩余字符中选出 最小 的字符，且该字符比上一个添加的字符大，将它 接在 结果字符串后面。
      * 重复步骤 2 ，直到你没法从 s 中选择字符。
@@ -214,6 +212,7 @@ public class Solution {
      * 从 s 剩余字符中选出 最大 的字符，且该字符比上一个添加的字符小，将它 接在 结果字符串后面。
      * 重复步骤 5 ，直到你没法从 s 中选择字符。
      * 重复步骤 1 到 6 ，直到 s 中所有字符都已经被选过。
+     *
      * @param s
      * @return
      */
@@ -245,8 +244,9 @@ public class Solution {
 
     /**
      * 给定一个无序的数组，找出数组在排序之后，相邻元素之间最大的差值。
-     *
+     * <p>
      * 如果数组元素个数小于 2，则返回 0。
+     *
      * @param nums
      * @return
      */
@@ -257,12 +257,122 @@ public class Solution {
 
         List<Integer> list = Arrays.stream(nums).boxed().sorted(Integer::compareTo).collect(Collectors.toList());
         int[] dis = new int[nums.length - 1];
-        for (int i = 0 ; i < list.size() - 1; i ++) {
+        for (int i = 0; i < list.size() - 1; i++) {
             dis[i] = list.get(i + 1) - list.get(i);
         }
 
         return Arrays.stream(dis).max().getAsInt();
     }
+
+    /**
+     * 有一个二维矩阵 A 其中每个元素的值为 0 或 1 。
+     * <p>
+     * 移动是指选择任一行或列，并转换该行或列中的每一个值：将所有 0 都更改为 1，将所有 1 都更改为 0。
+     * <p>
+     * 在做出任意次数的移动后，将该矩阵的每一行都按照二进制数来解释，矩阵的得分就是这些数字的总和。
+     * <p>
+     * 返回尽可能高的分数。
+     * <p>
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode-cn.com/problems/score-after-flipping-matrix
+     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     *
+     * @param A
+     * @return
+     */
+    public static int matrixScore(int[][] A) {
+        int m = A.length;
+        int n = A[0].length;
+        // 默认第一列都变成1
+        int result = m * (1 << (n - 1));
+        for (int i = 1; i < n; i++) {
+            // 每列为1的个数
+            int a = 0;
+            for (int j = 0; j < m; j++) {
+                if (A[j][0] == 1) {
+                    a += A[j][i];
+                } else {
+                    // 第一列不是1就翻转
+                    a += (1 - A[j][i]);
+                }
+            }
+            int k = Math.max(a, m - a);
+            result += k * (1 << (n - i - 1));
+        }
+        return result;
+    }
+
+    public static int reverse(int x) {
+        int result = 0;
+        while (x != 0) {
+            int p = x % 10;
+            x /= 10;
+            if (result > 214748364 || result < -214748364) {
+                return 0;
+            }
+            result = result * 10 + p;
+        }
+        return result;
+    }
+
+    /**
+     * 给定一个整数数组 prices，其中第 i 个元素代表了第 i 天的股票价格 ；非负整数 fee 代表了交易股票的手续费用。
+     * <p>
+     * 你可以无限次地完成交易，但是你每笔交易都需要付手续费。如果你已经购买了一个股票，在卖出它之前你就不能再继续购买股票了。
+     * <p>
+     * 返回获得利润的最大值。
+     * <p>
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee
+     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     * 一般的动态规划题目思路三步走：
+     * <p>
+     * 定义状态转移方程
+     * 给定转移方程初始值
+     * 写代码递推实现转移方程
+     *
+     * @param prices
+     * @param fee
+     * @return
+     */
+    public static int maxProfit(int[] prices, int fee) {
+        int n = prices.length;
+        int[] d = new int[2];
+        d[0] = 0;
+        d[1] = -prices[0];
+        for (int i = 0; i < n; i++) {
+            int temp = d[0];
+            d[0] = Math.max(temp, d[1] + prices[i] - fee);
+            d[1] = Math.max(d[1], temp - prices[i]);
+        }
+        return d[0];
+    }
+
+    public static char findTheDifference(String s, String t) {
+        int ret = 0;
+        for (int i = 0; i < s.length(); ++i) {
+            ret ^= s.charAt(i);
+        }
+        for (int i = 0; i < t.length(); ++i) {
+            ret ^= t.charAt(i);
+        }
+        return (char) ret;
+    }
+
+    public static boolean isPalindrome(int x) {
+        if (x < 0 || (x != 0 && x % 10 == 0)) {
+            return false;
+        }
+
+        int reverseNumber = 0;
+        while (x > reverseNumber) {
+            reverseNumber  = reverseNumber * 10 +  x % 10;
+            x /= 10;
+        }
+
+        return x == reverseNumber || x == reverseNumber / 10;
+    }
+
 
     public static void main(String[] args) {
         System.out.println(commonChars(new String[]{"bella", "label", "roller"}));
@@ -273,5 +383,13 @@ public class Solution {
         System.out.println(Arrays.deepToString(allCellsDistOrder(2, 2, 0, 0)));
         System.out.println(lengthOfLongestSubstring("asbbbbcade"));
         System.out.println(sortString("aaaabbbbcccc"));
+        System.out.println(reverse(123));
+        String sql = "DELETE FROM USER WHERE name='nn'";
+        int whereIndex = sql.indexOf(" WHERE");
+        System.out.println(sql.substring(whereIndex));
+        System.out.println(sql.substring(sql.indexOf("FROM") + 4, whereIndex));
+        System.out.println("SELECT * FROM" + sql.substring(sql.indexOf("FROM") + 4));
+        System.out.println(maxProfit(new int[]{1, 2, 9, 4, 8}, 2));
+        System.out.println(findTheDifference("abcd", "abcde"));
     }
 }
