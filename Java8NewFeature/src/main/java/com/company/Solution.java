@@ -184,6 +184,11 @@ public class Solution {
         return Math.abs(arr[0] - r2) + Math.abs(arr[1] - c2);
     }
 
+    /**
+     * 定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
+     * @param s
+     * @return
+     */
     public static int lengthOfLongestSubstring(String s) {
         int result = 0, rk = -1;
         Set<Character> set = new HashSet<>();
@@ -373,6 +378,42 @@ public class Solution {
         return x == reverseNumber || x == reverseNumber / 10;
     }
 
+    /**
+     * 斐波拉契数
+     * 动态规划
+     * @param n
+     * @return
+     */
+    public static int fib(int n) {
+        if (n <= 1) {
+            return n;
+        }
+
+        int  p =0, q = 0, r = 1;
+        for (int i = 2; i <= n; i ++) {
+            p = q;
+            q = r;
+            r = p + q;
+        }
+        return r;
+    }
+
+    public static int maxArea(int[] height) {
+        int l = 0, r = height.length - 1;
+        int area = 0;
+        while (l < r) {
+            int ans = Math.min(height[l], height[r]) * (r - l);
+            area = Math.max(area, ans);
+            if (height[l] <= height[r]) {
+              l ++;
+            } else {
+                r --;
+            }
+        }
+
+        return area;
+    }
+
 
     public static void main(String[] args) {
         System.out.println(commonChars(new String[]{"bella", "label", "roller"}));
@@ -391,5 +432,6 @@ public class Solution {
         System.out.println("SELECT * FROM" + sql.substring(sql.indexOf("FROM") + 4));
         System.out.println(maxProfit(new int[]{1, 2, 9, 4, 8}, 2));
         System.out.println(findTheDifference("abcd", "abcde"));
+        System.out.println(fib(2));
     }
 }
