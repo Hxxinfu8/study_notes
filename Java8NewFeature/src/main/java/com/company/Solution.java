@@ -50,7 +50,7 @@ public class Solution {
     }
 
     /**
-     * 搜索字符
+     * 划分字母区间
      *
      * @param S
      * @return
