@@ -2,12 +2,14 @@ package com.company;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.openjdk.jol.info.ClassLayout;
 
 import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.UUID;
@@ -56,9 +58,13 @@ public class Base {
             System.out.println(UUID.randomUUID().toString());
             BigDecimal bigDecimal = new BigDecimal(111);
             BigDecimal fenmu = new BigDecimal(3123);
-            System.out.println(bigDecimal.divide(fenmu, 2, BigDecimal.ROUND_HALF_UP).doubleValue());
-            System.out.println(92*1.0/1);
-            System.out.println(File.separator);
+            fenmu = fenmu.add(new BigDecimal(111))
+                    .add(new BigDecimal(222));
+            System.out.println(fenmu.toString());
+
+            Object o = new Object();
+            System.out.println(ClassLayout.parseInstance(base).toPrintable());
+
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -2,6 +2,7 @@ package com.company;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Leetcode
@@ -414,6 +415,41 @@ public class Solution {
         return area;
     }
 
+    /**
+     * 雪糕的最大数量
+     * @param costs
+     * @param coins
+     * @return
+     */
+    public int maxIceCream(int[] costs, int coins) {
+        int count = 0;
+        Arrays.sort(costs);
+        for (int i  = 0; i < costs.length; i ++) {
+            int cost = costs[i];
+            if (cost <= coins) {
+                coins -= cost;
+                count ++;
+            } else {
+                break;
+            }
+        }
+        return count;
+    }
+
+    public static boolean containsDuplicate(int[] nums) {
+        return Arrays.stream(nums).distinct().count() != nums.length;
+    }
+
+    public static boolean containsDuplicate1(int[] nums) {
+        for (int i = 0; i < nums.length - 1; i++) {
+            for (int j = i + 1; j < nums.length; j ++) {
+                if (nums[i] == nums[j]) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     public static void main(String[] args) {
         System.out.println(commonChars(new String[]{"bella", "label", "roller"}));
@@ -433,5 +469,19 @@ public class Solution {
         System.out.println(maxProfit(new int[]{1, 2, 9, 4, 8}, 2));
         System.out.println(findTheDifference("abcd", "abcde"));
         System.out.println(fib(2));
+        int[] nums = new int[] {1, 2, 3, 4, 5, 1, 2, 31, 23, 12,2,13,3,4};
+        long start = System.currentTimeMillis();
+        System.out.println(containsDuplicate(nums));
+        long middle = System.currentTimeMillis();
+        System.out.println(middle - start);
+        containsDuplicate1(nums);
+        System.out.println(System.currentTimeMillis() - middle);
+        List<Task> list = new ArrayList<>();
+        Task base = new Task(Status.CLOSED, 1);
+        Task base1 = new Task(Status.CLOSED, 21);
+        list.add(base);
+        list.add(base1);
+        list = list.stream().peek(item -> item.setPoints(1231)).collect(Collectors.toList());
+        System.out.println(list.toString());
     }
 }

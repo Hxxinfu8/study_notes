@@ -11,4 +11,7 @@ class SpringBootActivitiApplicationTests {
 
     }
 
+    private void testDeployment() {
+    }
+
 }
